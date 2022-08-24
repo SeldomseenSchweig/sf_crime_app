@@ -33,12 +33,12 @@ class User(db.Model):
 
     image_url = db.Column(
         db.Text,
-        default="https://cdn.pixabay.com/photo/2016/11/10/11/08/san-francisco-1814030__340.jpg",
+        default="static/images/default-pic.png",
     )
 
     header_image_url = db.Column(
         db.Text,
-        default="https://cdn.pixabay.com/photo/2017/04/22/11/26/golden-gate-2251108__340.jpg"
+        default="static/images/warbler-hero.jpg"
     )
 
     location = db.Column(
@@ -52,8 +52,8 @@ class User(db.Model):
     )
 
 
-@classmethod
-def signup(cls, username, email, password, image_url):
+    @classmethod
+    def signup(cls, username, email, password, image_url):
         """Sign up user.
 
         Hashes password and adds user to system.
@@ -71,8 +71,8 @@ def signup(cls, username, email, password, image_url):
         db.session.add(user)
         return user
 
-@classmethod
-def authenticate(cls, username, password):
+    @classmethod
+    def authenticate(cls, username, password):
         """Find user with `username` and `password`.
 
         This is a class method (call it on the class, not an individual user.)
@@ -90,3 +90,13 @@ def authenticate(cls, username, password):
                 return user
 
         return False
+
+def connect_db(app):
+    """Connect this database to provided Flask app.
+
+    You should call this in your Flask app.
+    """
+
+    db.app = app
+    db.init_app(app)
+    

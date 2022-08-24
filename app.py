@@ -110,3 +110,31 @@ def logout():
     do_logout()
     flash(f"Successfully logged out!", "success")
     return redirect('/')
+
+
+
+@app.route('/')
+def homepage():
+    """Show homepage:
+
+    - anon users: no messages
+    - logged in: 10 most recent incidents of san francisco or location if shosen
+    """
+    incidents=[]
+
+    if g.user:
+        # incidents = (Incident
+        #             .query
+        #             .order_by(Incident.timestamp.desc())
+        #             .all())
+    
+        # for incident in incidents:
+        #     if message.user in g.user.following or message.user.id == g.user.id:
+        #         messages.append(message)
+        # if len(messages) > 100:
+        #     messages = messages[0:100]
+            
+        return render_template('home.html')
+
+    else:
+        return render_template('home-anon.html')

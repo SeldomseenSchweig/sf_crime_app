@@ -13,7 +13,7 @@
 
   <link rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-  <link rel="stylesheet" href="/static/stylesheets/style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="shortcut icon" href="/static/favicon.ico">
 </head>
 
@@ -22,7 +22,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a href="/" class="navbar-brand">
-        <img src="/static/images/bridge-logo" alt="logo">
+        <img src="/static/images/bridge-logo.png" alt="logo">
         <span>CrimeLine</span>
     </div>
     <ul class="nav navbar-nav navbar-right">
@@ -30,11 +30,11 @@
       <li><a href="/signup">Sign up</a></li>
       <li><a href="/login">Log in</a></li>
       {% else %}
-      <li>
+      <!-- <li>
         <a href="/users/{{ g.user.id }}">
           <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
         </a>
-      </li>
+      </li> -->
       <li><a href="/messages/new">New Message</a></li>
       <li><a href="/logout">Log out</a></li>
       {% endif %}

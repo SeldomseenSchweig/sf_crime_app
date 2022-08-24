@@ -3,10 +3,10 @@ from tkinter import CASCADE
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey, DateTime
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
-
 
 
 class User(db.Model):
@@ -53,7 +53,7 @@ class User(db.Model):
 
 
     @classmethod
-    def signup(cls, username, email, password, image_url):
+    def signup(cls, username, email, password, image_url, location):
         """Sign up user.
 
         Hashes password and adds user to system.
@@ -66,6 +66,7 @@ class User(db.Model):
             email=email,
             password=hashed_pwd,
             image_url=image_url,
+            location=location
         )
 
         db.session.add(user)
@@ -99,4 +100,55 @@ def connect_db(app):
 
     db.app = app
     db.init_app(app)
+
+
+
+class choices(db.Model):
+
+    __tablename__ = 'user_choice'
+
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete='CASCADE'),
+    )
+    neigborhood_name = db.Column(
+        db.Text,
+        nullable=True,
+    )
+    from_time = db.Column(
+        db.DateTime,
+        nullable=True,
+    )
+    to_time = db.Column(
+        db.DateTime,
+        nullable=True,
+    )
+    from_date = db.Column(
+        db.Date,
+        nullable=True,
+    )
+    to_date = db.Column(
+        db.Date,
+        nullable=True,
+    )
+    supervisor_district = db.Column(
+    db.Text,
+    nullable=True,
+    )
+
+    police_district = db.Column(
+    db.Text,
+    nullable=True,
+    )
+
+
+
+
+
+
     

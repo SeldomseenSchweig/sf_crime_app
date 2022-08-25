@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy import null
 from sqlalchemy.exc import IntegrityError
 import requests
 import json
@@ -78,7 +79,7 @@ def signup():
             db.session.commit()
 
         except IntegrityError:
-            flash("Username already taken", 'danger')
+            flash("Username or Email already taken", 'danger')
             return render_template('users/signup.html', form=form)
 
         do_login(user)
@@ -124,23 +125,65 @@ def homepage():
     - anon users: no messages
     - logged in: 10 most recent incidents of san francisco or location if shosen
     """
-    incidents=[]
+    
 
     if g.user:
-        # name= request.get_data("nam")
-        # email = request.get_data("email")
-        # year = request.get_data("year")
-        # num = math.floor(random.random() * 100)
-        # year = json.loads(year)
-        # print(year['year'])
+
+        # if g.user.location == null:
+        #     resp = requests.get(f'{API_BASE_URL}')
+        # else:
+        resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={g.user.location}')
         
-        resp = requests.get(f'{API_BASE_URL}police_district={g.user.location}')
         
         data  = json.loads(resp.text)
-    
+       
         messages = data[:10]
             
         return render_template('home.html', messages=messages)
 
     else:
         return render_template('home-anon.html')
+
+
+#############################################################################################################
+""" Routes For the user, profile, edit, ect"""
+
+@app.route('/users/<int:user_id>')
+def user_detail(user_id):
+
+    if not g.user or g.user.id != user_id:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+
+
+    return render_template('users/detail.html')
+
+
+@app.route('/users/edit', methods=["GET", "POST"])
+def profile():
+    """Update profile for current user."""
+    form = UserEditForm(obj=g.user)
+    user = User.query.get_or_404(g.user.id)
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    if form.validate_on_submit():
+        g.user.username = form.username.data
+        g.user.email = form.email.data
+        g.user.image_url = form.image_url.data
+        g.user.header_image_url = form.header_image_url.data
+        g.user.location = form.location.data
+
+        
+        user = User.authenticate(g.user.username,
+                                 form.password.data)
+        if user:
+            db.session.commit()
+            return redirect(f'/users/{g.user.id}')
+        else:
+            flash('Invalid Password')
+            return redirect('users/edit')
+    
+    user = User.query.get_or_404(g.user.id)
+    return render_template('users/edit.html', user=user, form=form )

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Crimeline</title>
+  <title>SF Hood Watch</title>
 
   <link rel="stylesheet"
         href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
@@ -13,7 +13,7 @@
 
   <link rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="/static/stylesheets/style.css">
   <link rel="shortcut icon" href="/static/favicon.ico">
 </head>
 
@@ -23,7 +23,7 @@
     <div class="navbar-header">
       <a href="/" class="navbar-brand">
         <img src="/static/images/bridge-logo.png" alt="logo">
-        <span>CrimeLine</span>
+        <span>SF Hood Watch</span>
     </div>
     <ul class="nav navbar-nav navbar-right">
       {% if not g.user %}
@@ -35,7 +35,7 @@
           <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
         </a>
       </li> -->
-      <li><a href="/messages/new">New Message</a></li>
+      <li><a href="/watch/new">New Hood Watch</a></li>
       <li><a href="/logout">Log out</a></li>
       {% endif %}
     </ul>

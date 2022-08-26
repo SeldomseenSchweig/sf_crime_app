@@ -1,3 +1,4 @@
+from crypt import methods
 import os
 
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
@@ -6,10 +7,12 @@ from sqlalchemy import null
 from sqlalchemy.exc import IntegrityError
 import requests
 import json
-from forms import UserAddForm, LoginForm, UserEditForm
+from forms import UserAddForm, LoginForm, UserEditForm, NewHoodWatchForm
 from models import db, connect_db, User
-API_BASE_URL = 'https://data.sfgov.org/resource/wg3w-h783.json?'
-from apikey import API_KEY 
+from apikey import API_TOKEN
+
+API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$$app_token={API_TOKEN}&'
+
 
 CURR_USER_KEY = "curr_user"
 
@@ -187,3 +190,34 @@ def profile():
     
     user = User.query.get_or_404(g.user.id)
     return render_template('users/edit.html', user=user, form=form )
+
+
+
+    ###########################################
+    """ Handles new watches """
+
+@app.route('/watch/new', methods=["GET", "POST"])
+def add_watches():
+    form = NewHoodWatchForm()
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+  
+    if form.validate_on_submit():
+        location = form.location.data
+        crime_description = form.crime_description.data
+
+        resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={location}&incident_category={crime_description}')
+        
+        data  = json.loads(resp.text)
+        messages = data[:10]
+        print(data)
+    
+        return render_template('watches/watch.html', messages=messages)
+
+    print(form.errors)
+
+    return render_template('watches/new_watch.html',form=form)
+
+

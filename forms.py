@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, DateField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -106,10 +106,9 @@ class LoginForm(FlaskForm):
 
 
 
-class HoodWatchForm(FlaskForm):
+class NewHoodWatchForm(FlaskForm):
     """ Form for looking at a new neighborhood """
     location = SelectField('Location', choices=[
-    ('All', 'All'),
     ('Mission', 'Mission'), 
     ('South of Market', 'South of Market'), 
     ('Tenderloin', 'Tenderloin'), 
@@ -148,8 +147,9 @@ class HoodWatchForm(FlaskForm):
     ('Lincoln Park', 'Lincoln Park'),
     ('Treasure Island', 'Treasure Island'),
     ('Twin Peaks', 'Twin Peaks')])
+    
     crime_description = SelectField('Crime Description',
-    ('Vehicle Impounded', 'Vehicle Impounded'),
+    choices=[('Vehicle Impounded', 'Vehicle Impounded'),
     ('Suicide', 'Suicide'),
     ('Vehicle Misplaced', 'Vehicle Misplaced'),
     ('Drug Violation', 'Drug Violation'),
@@ -183,9 +183,18 @@ class HoodWatchForm(FlaskForm):
     ('Weapons Offense', 'Weapons Offense'),
     ('Weapons Carrying Etc', 'Weapons Carrying Etc'),
     ('Stolen Property', 'Stolen Property'),
-    ('Suicide', 'Suicide'),
-    ('Suicide', 'Suicide'),
-    ('Suicide', 'Suicide'),
-
-
+    ('Drug Offense', 'Drug Offense'),
+    ('Lost Property', 'Lost Property'),
+    ('Warrant', 'Warrant'),
+    ('Fraud', 'Fraud'),
+    ('Recovered Vehicle', 'Recovered Vehicle'),
+    ('Motor Vehicle Theft', 'Motor Vehicle Theft'),
+    ('Burglary', 'Burglary'),
+    ('Non-Criminal', 'Non-Criminal'),
+    ('Assault', 'Assault'),
+    ('Malicious Mischief', 'Malicious Mischief'),
+    ('Other Miscellaneous', 'Other Miscellaneous'),
+    ('Larceny Theft', 'Larceny Theft'),
+    ('Human Trafficking (B), Involuntary Servitude', 'Human Trafficking (B), Involuntary Servitude'),
+    ('Human Trafficking, Commercial Sex Acts', 'Human Trafficking, Commercial Sex Acts')]
     )

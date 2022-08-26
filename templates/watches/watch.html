@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w-50 h-50 col-md-8 offset-md-3 overflow-auto">
+    <ul class="list-group" id="messages">
+      {% for msg in messages %}
+        <li class="list-group-item">
+          <a href="" class="message-link">
+          <div class="">
+            <a href="">{{ msg.incident_number }}</a>
+            <span class="text-muted">{{ msg.incident_date}}</span>
+            <p>{{ msg.incident_category }}</p>
+            <p>{{ msg.incident_description }}</p>
+            <p>{{ msg.analysis_neighborhood }}</p>
+          </div>
+
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

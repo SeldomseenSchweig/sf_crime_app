@@ -87,7 +87,7 @@ def signup():
 
         do_login(user)
 
-        return redirect("/")
+        return redirect("/home")
 
     else:
         return render_template('users/signup.html', form=form)
@@ -106,7 +106,7 @@ def login():
         if user:
             do_login(user)
             flash(f'Hello, {user.username}!', "success")
-            return redirect("/")
+            return redirect("/home")
 
         flash("Invalid credentials.", 'danger')
 
@@ -117,7 +117,7 @@ def login():
 def logout():
     do_logout()
     flash(f"Successfully logged out!", "success")
-    return redirect('/')
+    return redirect('/home')
 
 
 
@@ -156,7 +156,7 @@ def user_detail(user_id):
 
     if not g.user or g.user.id != user_id:
         flash("Access unauthorized.", "danger")
-        return redirect("/")
+        return redirect("/home")
     
 
 
@@ -170,7 +170,7 @@ def profile():
     user = User.query.get_or_404(g.user.id)
     if not g.user:
         flash("Access unauthorized.", "danger")
-        return redirect("/")
+        return redirect("/home")
     if form.validate_on_submit():
         g.user.username = form.username.data
         g.user.email = form.email.data
@@ -202,7 +202,7 @@ def add_watches():
 
     if not g.user:
         flash("Access unauthorized.", "danger")
-        return redirect("/")
+        return redirect("/home")
   
     if form.validate_on_submit():
         location = form.location.data

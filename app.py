@@ -11,7 +11,7 @@ from forms import UserAddForm, LoginForm, UserEditForm, NewHoodWatchForm
 from models import db, connect_db, User
 from apikey import API_TOKEN
 
-API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$$app_token={API_TOKEN}&'
+API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$order=incident_date DESC&$$app_token={API_TOKEN}&'
 
 
 CURR_USER_KEY = "curr_user"

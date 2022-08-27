@@ -1,9 +1,9 @@
 from crypt import methods
 import os
 
-from flask import Flask, render_template, request, flash, redirect, session, g, url_for
+from flask import Flask, render_template, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
-from sqlalchemy import null
+
 from sqlalchemy.exc import IntegrityError
 import requests
 import json
@@ -11,12 +11,15 @@ from forms import UserAddForm, LoginForm, UserEditForm, NewHoodWatchForm
 from models import db, connect_db, User
 from apikey import API_TOKEN
 
+
 API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$order=incident_date DESC&$$app_token={API_TOKEN}&'
 
 
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
+
+
 
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
@@ -28,7 +31,7 @@ app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 toolbar = DebugToolbarExtension(app)
-
+port = int(os.environ.get("PORT", 5000))
 connect_db(app)
 
 

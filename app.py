@@ -121,7 +121,7 @@ def logout():
 
 
 
-@app.route('/')
+@app.route('/home')
 def homepage():
     """Show homepage:
 

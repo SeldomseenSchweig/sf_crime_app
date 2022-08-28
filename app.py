@@ -1,9 +1,7 @@
 from crypt import methods
 import os
-
 from flask import Flask, render_template, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
-
 from sqlalchemy.exc import IntegrityError
 import requests
 import json
@@ -16,22 +14,18 @@ API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$order=incident_
 
 
 CURR_USER_KEY = "curr_user"
-
 app = Flask(__name__)
-
-
-
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql:///sf_crime'))
-
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///sf_crime')
+if app.config["SQLALCHEMY_DATABASE_URI"].startswith("postgres://"):
+    app.config["SQLALCHEMY_DATABASE_URI"] = app.config["SQLALCHEMY_DATABASE_URI"].replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 toolbar = DebugToolbarExtension(app)
-port = int(os.environ.get("PORT", 5000))
+
 connect_db(app)
 
 

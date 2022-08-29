@@ -7,7 +7,10 @@ import requests
 import json
 from forms import UserAddForm, LoginForm, UserEditForm, NewHoodWatchForm
 from models import db, connect_db, User
-from apikey import API_TOKEN
+try:
+    from apikey import API_TOKEN
+except:
+    API_TOKEN = os.environ.get('API_TOKEN')
 
 
 API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$order=incident_date DESC&$$app_token={API_TOKEN}&'
@@ -18,6 +21,7 @@ app = Flask(__name__)
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///sf_crime')
+
 if app.config["SQLALCHEMY_DATABASE_URI"].startswith("postgres://"):
     app.config["SQLALCHEMY_DATABASE_URI"] = app.config["SQLALCHEMY_DATABASE_URI"].replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -237,12 +241,12 @@ def add_watches():
 
 
 
-@app.route('users/save_search ', methods="POST")
-def save_search():
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/home")
+# @app.route('users/save_search', methods="POST")
+# def save_search():
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/home")
     
     
 
-    return redirect('user/details.html')
+#     return redirect('user/details.html')

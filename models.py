@@ -3,7 +3,8 @@ from tkinter import CASCADE
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey, DateTime
+from sqlalchemy import ForeignKey, DateTime, Text
+from sqlalchemy.dialects.postgresql import ARRAY
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -33,7 +34,7 @@ class User(db.Model):
 
     image_url = db.Column(
         db.Text,
-        default="static/images/default-pic.png",
+        default="/static/images/default-pic.png"
     )
 
     header_image_url = db.Column(
@@ -105,46 +106,48 @@ def connect_db(app):
 
 class choices(db.Model):
 
-    __tablename__ = 'user_choice'
+    __tablename__ = 'user_crime'
 
 
     id = db.Column(
         db.Integer,
-        primary_key=True,
+        primary_key=True
     )
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('users.id', ondelete='CASCADE'),
+        db.ForeignKey('users.id', ondelete='CASCADE')
     )
-    neigborhood_name = db.Column(
-        db.Text,
-        nullable=True,
-    )
-    from_time = db.Column(
-        db.DateTime,
-        nullable=True,
-    )
-    to_time = db.Column(
-        db.DateTime,
-        nullable=True,
-    )
-    from_date = db.Column(
-        db.Date,
-        nullable=True,
-    )
-    to_date = db.Column(
-        db.Date,
-        nullable=True,
-    )
-    supervisor_district = db.Column(
-    db.Text,
-    nullable=True,
-    )
+    incident_id = db.Column(
+        ARRAY(db.Text), nullable=False) 
+    # neigborhood_name = db.Column(
+    #     db.Text,
+    #     nullable=True,
+    # )
+    # from_time = db.Column(
+    #     db.DateTime,
+    #     nullable=True,
+    # )
+    # to_time = db.Column(
+    #     db.DateTime,
+    #     nullable=True,
+    # )
+    # from_date = db.Column(
+    #     db.Date,
+    #     nullable=True,
+    # )
+    # to_date = db.Column(
+    #     db.Date,
+    #     nullable=True,
+    # )
+    # supervisor_district = db.Column(
+    # db.Text,
+    # nullable=True,
+    # )
 
-    police_district = db.Column(
-    db.Text,
-    nullable=True,
-    )
+    # police_district = db.Column(
+    # db.Text,
+    # nullable=True,
+    # )
 
 
 

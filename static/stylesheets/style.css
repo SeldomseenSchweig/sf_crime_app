@@ -187,6 +187,7 @@ nav + .container {
   margin-top: 2px;
 }
 
+
 .message-area,
 .timeline-image {
   display: inline-block;
@@ -328,6 +329,12 @@ nav + .container {
   padding: 4px 12px;
   font-size: 12px;
 }
+
+.profile_image {
+  min-width: 300px;
+  min-height: 300px;
+}
+
 
 .card-hero {
   width: 100%;

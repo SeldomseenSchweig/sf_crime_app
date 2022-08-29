@@ -132,8 +132,12 @@ def homepage():
         # if g.user.location == null:
         #     resp = requests.get(f'{API_BASE_URL}')
         # else:
-        resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={g.user.location}')
-        
+        if g.user.location != "All":
+            resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={g.user.location}')
+        else:
+            resp = requests.get(f'{API_BASE_URL}')
+
+
         
         data  = json.loads(resp.text)
        
@@ -188,6 +192,21 @@ def profile():
     user = User.query.get_or_404(g.user.id)
     return render_template('users/edit.html', user=user, form=form )
 
+@app.route('/users/delete', methods=["POST"])
+def delete_user():
+    """Delete user."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    do_logout()
+
+    db.session.delete(g.user)
+    db.session.commit()
+
+    return redirect("/signup")
+
 
 
     ###########################################
@@ -209,12 +228,21 @@ def add_watches():
         
         data  = json.loads(resp.text)
         messages = data[:10]
-        print(data)
+
     
         return render_template('watches/watch.html', messages=messages)
-
-    print(form.errors)
 
     return render_template('watches/new_watch.html',form=form)
 
 
+
+
+# @app.route('users/save_search', methods="POST")
+# def save_search():
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/home")
+    
+    
+
+#     return redirect('user/details.html')

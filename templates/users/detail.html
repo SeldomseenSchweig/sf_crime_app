@@ -8,7 +8,7 @@
   <div class="col-sm-3">
     <h4 id="sidebar-username">{{ g.user.username }}</h4>
     <p>{{g.user.email}}</p>
-    <p>Image: <img src="{{g.user.image_url}}" alt=""></p>
+    <p class="profile_image">Image: <img src="{{g.user.image_url}}" alt=""></p>
     <p class="user-location"><span class="fa fa-map-marker"></span>{{g.user.location}}</p>
   </div>
 
@@ -16,8 +16,11 @@
   {% endblock %}
 
 </div>
-<a href="/users/edit"><button class="btn btn-warning"> Edit User Profile</button></a>
 
-
+  
+  <form class="form-inline">
+    <button class="btn btn-warning" formaction="/users/edit" formmethod="get" > Edit User Profile</button>
+    <button class="btn btn-danger" formaction="/users/delete" formmethod="post" >Delete Profile</button>
+  </form>
 
 {% endblock %}

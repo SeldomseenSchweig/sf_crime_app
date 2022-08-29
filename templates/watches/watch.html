@@ -7,7 +7,7 @@
         <li class="list-group-item">
           <a href="" class="message-link">
           <div class="">
-            <a href="">{{ msg.incident_number }}</a>
+            <a>{{ msg.incident_number }}</a>
             <span class="text-muted">{{ msg.incident_datetime}}</span>
             <p>{{ msg.incident_category }}</p>
             <p>{{ msg.incident_description }}</p>
@@ -16,5 +16,9 @@
 
       {% endfor %}
     </ul>
+    <form class="form-inline">
+      <button class="btn btn-warning" formaction="/users/save_search/{{messages}}" formmethod="post" > Save watch</button>
+      <button class="btn btn-danger" formaction="/home" formmethod="post" >Home</button>
+    </form>
   </div>
 {% endblock %}

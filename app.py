@@ -1,12 +1,13 @@
 from crypt import methods
+from inspect import getargvalues
 import os
-from flask import Flask, render_template, flash, redirect, session, g
+from flask import Flask, render_template, flash, redirect, session, g, request
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 import requests
 import json
 from forms import UserAddForm, LoginForm, UserEditForm, NewHoodWatchForm
-from models import db, connect_db, User
+from models import db, connect_db, User, UserIncidents
 try:
     from apikey import API_TOKEN
 except:
@@ -241,12 +242,17 @@ def add_watches():
 
 
 
-# @app.route('users/save_search', methods="POST")
-# def save_search():
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/home")
+@app.route('/users/save_search', methods=["POST"])
+def save_search():
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/home")
+    i = request.form
     
     
+  
+    list = UserIncidents(user_id = g.user.id, incidents=i)
+    db.session.add(list)
+    db.session.commit()
 
-#     return redirect('user/details.html')
+    return redirect('/home')

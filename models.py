@@ -3,8 +3,7 @@ from tkinter import CASCADE
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey, DateTime, Text
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import ForeignKey, DateTime, Text, PickleType
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -18,6 +17,7 @@ class User(db.Model):
     id = db.Column(
         db.Integer,
         primary_key=True,
+        autoincrement=True
     )
 
     email = db.Column(
@@ -104,21 +104,27 @@ def connect_db(app):
 
 
 
-class choices(db.Model):
+class UserIncidents(db.Model):
 
-    __tablename__ = 'user_crime'
+    __tablename__ = 'user_incident'
 
 
     id = db.Column(
         db.Integer,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True
+
     )
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('users.id', ondelete='CASCADE')
+        db.ForeignKey('users.id', ondelete='CASCADE'),
+        nullable=False
     )
-    incident_id = db.Column(
-        ARRAY(db.Text), nullable=False) 
+
+    incidents = db.Column(
+        db.PickleType
+        )
+
     # neigborhood_name = db.Column(
     #     db.Text,
     #     nullable=True,

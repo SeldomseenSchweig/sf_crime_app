@@ -2,9 +2,11 @@
 
 {% block content %}
 <form class="form-inline">
+<input type="hidden" name="messages" value="{{messages}}">
 <div class="w-50 h-50 col-md-8 offset-md-3 overflow-auto">
     <ul class="list-group" id="messages">
       {% for msg in messages %}
+
         <li class="list-group-item">
           <a href="" class="message-link">
           <div class="">

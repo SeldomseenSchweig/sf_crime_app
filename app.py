@@ -237,12 +237,12 @@ def add_watches():
 
 
 
-# @app.route('users/save_search', methods="POST")
-# def save_search():
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/home")
+@app.route('users/save_search ', methods="POST")
+def save_search():
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/home")
     
     
 
-#     return redirect('user/details.html')
+    return redirect('user/details.html')

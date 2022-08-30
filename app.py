@@ -8,6 +8,9 @@ import requests
 import json
 from forms import UserAddForm, LoginForm, UserEditForm, NewHoodWatchForm
 from models import db, connect_db, User, UserIncidents
+import datetime
+import time
+from dateutil import parser
 try:
     from apikey import API_TOKEN
 except:
@@ -57,6 +60,9 @@ def do_logout():
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
 
+@app.route('/')
+def home():
+    return redirect('/home')
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -142,17 +148,23 @@ def homepage():
         else:
             resp = requests.get(f'{API_BASE_URL}')
 
-
-        
         data  = json.loads(resp.text)
        
         messages = data[:10]
+        messages = convert(messages)
+        messages = intersection(messages)
+
             
         return render_template('home.html', messages=messages)
 
     else:
         return render_template('home-anon.html')
 
+def convert(messages):
+    for m in messages:
+        DT = parser.parse(m['incident_datetime']) 
+        m['incident_datetime'] = DT.strftime("%d-%b-%Y %I.%M %p")
+    return messages
 
 #############################################################################################################
 """ Routes For the user, profile, edit, ect"""
@@ -233,11 +245,23 @@ def add_watches():
         
         data  = json.loads(resp.text)
         messages = data[:10]
+        messages = convert(messages)
+        messages = intersection(messages)
+        
 
     
         return render_template('watches/watch.html', messages=messages)
 
     return render_template('watches/new_watch.html',form=form)
+
+def intersection(messages):
+    for m in messages:
+        m['intersection'] = m['intersection'].lower()
+        m['intersection'] = m['intersection'].title()
+        m['intersection'] = m['intersection'].split("\\")
+        m['intersection'] = 'and'.join(m['intersection'])
+          
+    return messages
 
 
 

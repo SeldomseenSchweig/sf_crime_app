@@ -8,13 +8,13 @@
       {% for msg in messages %}
 
         <li class="list-group-item">
-          <a href="" class="message-link">
+          <a>
           <div class="">
-            <a>{{ msg.incident_number }}</a>
             <span class="text-muted">{{ msg.incident_datetime}}</span>
             <p>{{ msg.incident_category }}</p>
             <p>{{ msg.incident_description }}</p>
             <p>{{ msg.analysis_neighborhood }}</p>
+            <p>{{ msg.intersection }}</p>
           </div>
 
       {% endfor %}

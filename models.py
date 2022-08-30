@@ -27,7 +27,7 @@ class UserIncidents(db.Model):
     )
 
     incidents = db.Column(
-        db.PickleType
+        db.Text
     )
 
 

@@ -271,10 +271,7 @@ def save_search():
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/home")
-    i = request.form
-    
-    
-  
+    i = {"hello": g.user.username}
     list = UserIncidents(user_id = g.user.id, incidents=i)
     db.session.add(list)
     db.session.commit()

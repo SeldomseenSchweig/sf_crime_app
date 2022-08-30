@@ -8,6 +8,28 @@ from sqlalchemy import ForeignKey, DateTime, Text, PickleType
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
+class UserIncidents(db.Model):
+
+    __tablename__ = 'user_incident'
+
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        autoincrement=True
+
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete='CASCADE'),
+        nullable=False
+    )
+
+    incidents = db.Column(
+        db.PickleType
+    )
+
 
 class User(db.Model):
     """User in the system."""
@@ -51,6 +73,12 @@ class User(db.Model):
         db.Text,
         nullable=False,
     )
+    watches = db.relationship(
+        "User",
+        secondary="user_incident",
+        primaryjoin = (UserIncidents.user_id == id)
+       
+    )
 
 
     @classmethod
@@ -93,6 +121,8 @@ class User(db.Model):
 
         return False
 
+
+
 def connect_db(app):
     """Connect this database to provided Flask app.
 
@@ -104,26 +134,7 @@ def connect_db(app):
 
 
 
-class UserIncidents(db.Model):
 
-    __tablename__ = 'user_incident'
-
-
-    id = db.Column(
-        db.Integer,
-        primary_key=True,
-        autoincrement=True
-
-    )
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete='CASCADE'),
-        nullable=False
-    )
-
-    incidents = db.Column(
-        db.PickleType
-        )
 
     # neigborhood_name = db.Column(
     #     db.Text,

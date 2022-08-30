@@ -1,5 +1,5 @@
 from datetime import datetime
-from tkinter import CASCADE
+
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy

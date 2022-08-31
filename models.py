@@ -29,6 +29,10 @@ class UserIncidents(db.Model):
     incidents = db.Column(
         db.Text
     )
+    name = db.Column(
+        db.Text,
+        nullable=False
+    )
 
 
 class User(db.Model):
@@ -45,7 +49,6 @@ class User(db.Model):
     email = db.Column(
         db.Text,
         nullable=False,
-        # unique=True,
     )
 
     username = db.Column(
@@ -56,7 +59,7 @@ class User(db.Model):
 
     image_url = db.Column(
         db.Text,
-        default="/static/images/default-pic.png"
+        default="static/images/default-pic.png"
     )
 
     header_image_url = db.Column(

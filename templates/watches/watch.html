@@ -19,6 +19,8 @@
 
       {% endfor %}
     </ul>
+    <label for="name"> Please Name your watch if want to save it: </label>
+    <input type="text" name="name" >
 
       <button class="btn btn-warning" formaction="/users/save_search" formmethod="post" > Save watch</button>
       <button class="btn btn-danger" formaction="/home" formmethod="get">Home</button>

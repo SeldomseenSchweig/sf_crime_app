@@ -175,10 +175,11 @@ def user_detail(user_id):
     if not g.user or g.user.id != user_id:
         flash("Access unauthorized.", "danger")
         return redirect("/home")
+    watches = g.user.watches
     
 
 
-    return render_template('users/detail.html')
+    return render_template('users/detail.html', watches = watches)
 
 
 @app.route('/users/edit', methods=["GET", "POST"])
@@ -272,7 +273,6 @@ def save_search():
         flash("Access unauthorized.", "danger")
         return redirect("/home")
     d = request.form['messages']
-    print(d)
     list = UserIncidents(user_id = g.user.id, incidents=d)
     db.session.add(list)
     db.session.commit()

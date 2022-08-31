@@ -23,4 +23,12 @@
     <button class="btn btn-danger" formaction="/users/delete" formmethod="post" >Delete Profile</button>
   </form>
 
+  <div>
+    {% for watch in watches  %}
+    <button>Saved Search Id#: {{watch.id}}</button>
+    {% endfor %}
+
+
+  </div>
+
 {% endblock %}

@@ -71,14 +71,10 @@ class User(db.Model):
 
     password = db.Column(
         db.Text,
-        nullable=False,
+        nullable=False
     )
-    watches = db.relationship(
-        "User",
-        secondary="user_incident",
-        primaryjoin = (UserIncidents.user_id == id)
-       
-    )
+    watches = db.relationship('UserIncidents',cascade="all, delete-orphan", single_parent=True)
+
 
 
     @classmethod

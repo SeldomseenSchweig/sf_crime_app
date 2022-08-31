@@ -241,22 +241,38 @@ def add_watches():
     if form.validate_on_submit():
         location = form.location.data
         crime_description = form.crime_description.data
+        d = form.date.data
+        d.strftime
+        date = d.strftime("%Y-%m-%d")
+        if crime_description == 'All' and location == 'All' :
+            resp = requests.get(f'{API_BASE_URL}incident_date={date}')
+            print(f'{API_BASE_URL}incident_date={date}')
+        elif location == 'All':
+            resp = requests.get(f'{API_BASE_URL}incident_date={date}&incident_category={crime_description}')
+        elif crime_description == 'All':
+            resp = requests.get(f'{API_BASE_URL}incident_date={date}T00:00:00.000&analysis_neighborhood={location}')
+        else:
+            resp = requests.get(f'{API_BASE_URL}incident_date={date}T00:00:00.000&analysis_neighborhood={location}&incident_category={crime_description}')
 
-        resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={location}&incident_category={crime_description}')
-        
         data  = json.loads(resp.text)
+        if len(data) == 0:
+            flash("Your search was empty", "error")
+            return render_template('watches/new_watch.html',form=form)
         messages = data[:10]
         messages = convert(messages)
         messages = intersection(messages)
         
-
-    
         return render_template('watches/watch.html', messages=messages)
 
     return render_template('watches/new_watch.html',form=form)
 
 def intersection(messages):
     for m in messages:
+        try:
+            m['intersection']
+
+        except:
+            continue
         m['intersection'] = m['intersection'].lower()
         m['intersection'] = m['intersection'].title()
         m['intersection'] = m['intersection'].split("\\")

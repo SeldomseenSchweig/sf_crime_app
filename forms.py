@@ -108,7 +108,7 @@ class LoginForm(FlaskForm):
 
 class NewHoodWatchForm(FlaskForm):
     """ Form for looking at a new neighborhood """
-    location = SelectField('Location', choices=[
+    location = SelectField('Location', choices=[('All', 'All'),
     ('Mission', 'Mission'), 
     ('South of Market', 'South of Market'), 
     ('Tenderloin', 'Tenderloin'), 
@@ -149,7 +149,7 @@ class NewHoodWatchForm(FlaskForm):
     ('Twin Peaks', 'Twin Peaks')])
     
     crime_description = SelectField('Crime Description',
-    choices=[('Vehicle Impounded', 'Vehicle Impounded'),
+    choices=[('All', 'All'),('Vehicle Impounded', 'Vehicle Impounded'),
     ('Suicide', 'Suicide'),
     ('Vehicle Misplaced', 'Vehicle Misplaced'),
     ('Drug Violation', 'Drug Violation'),
@@ -198,3 +198,4 @@ class NewHoodWatchForm(FlaskForm):
     ('Human Trafficking (B), Involuntary Servitude', 'Human Trafficking (B), Involuntary Servitude'),
     ('Human Trafficking, Commercial Sex Acts', 'Human Trafficking, Commercial Sex Acts')]
     )
+    date = DateField("Date (After 2017 (DD-MM-YYYY)",format='%m/%d/%Y' )

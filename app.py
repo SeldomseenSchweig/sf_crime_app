@@ -278,3 +278,14 @@ def save_search():
     db.session.commit()
 
     return redirect('/home')
+
+
+@app.route('/saved_watch/<int:id>')
+def saved_search(id):
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/home")
+
+    u = UserIncidents.query.get(id)
+    u = eval(u.incidents)
+    return render_template('watches/saved_watch.html', watches=u )

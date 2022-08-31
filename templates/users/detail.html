@@ -25,7 +25,7 @@
 
   <div>
     {% for watch in watches  %}
-    <button>Saved Search Id#: {{watch.id}}</button>
+    <a href="/saved_watch/{{watch.id}}"><button>Saved Search Id#: {{watch.id}}</button></a>
     {% endfor %}
 
 

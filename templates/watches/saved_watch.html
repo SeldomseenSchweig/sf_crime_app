@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form class="form-inline">
+<input type="hidden" name="messages" value="{{messages}}">
+<div class="w-50 h-50 col-md-8 offset-md-3 overflow-auto">
+    <ul class="list-group" id="messages">
+      {% for watch in watches %}
+
+        <li class="list-group-item">
+          <a>
+          <div class="">
+            <span class="text-muted">{{ watch.incident_datetime}}</span>
+            <p>{{ watch.incident_category }}</p>
+            <p>{{ watch.incident_description }}</p>
+            <p>{{ watch.analysis_neighborhood }}</p>
+            <p>{{ watch.intersection }}</p>
+          </div>
+
+      {% endfor %}
+    </ul>
+
+      <button class="btn btn-danger" formaction="/home" formmethod="get">Home</button>
+    </form>
+  </div>
+{% endblock %}

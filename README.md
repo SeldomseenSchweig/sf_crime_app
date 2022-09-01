@@ -19,13 +19,14 @@ Errors or things that are not working at the moment is the update to user pictur
 
 <h1> Technicals </h1>
 
-To run the app from your own console, make a pull request to your machine. Navigate to the folder in the command lina dand create a virtual environment with <h3> python3 -m venv venv </h3> on a maclinux machine or  <h3> py -m venv venv </h3>.
+To run the app from your own console, make a pull request to your machine. Navigate to the folder in the command lina dand create a virtual environment with python3 -m venv venv on a mac orlinux machine or py -m venv venv on a windows machine.
 
-Install the dependencies is <h3> pip -r requiremnts.txt </h3>.
-
-Got to your browser, google is what I have used, and got to 127.0.0.1:5000.
+Install the dependencies in the CLI with pip -r requiremnts.txt.
 
 There will be no database support, you will need to download postgresql and create a database with the appropritae name.
+
+Got to your browser, Google is what I have used, and go to 127.0.0.1:5000.
+
 
 The app should run in browser.
 

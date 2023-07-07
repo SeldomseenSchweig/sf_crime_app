@@ -137,23 +137,20 @@ def homepage():
     - logged in: 10 most recent incidents of san francisco or location if shosen
     """
     
-
-   if g.user:
-       if g.user.location != "All":
-           resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={g.user.location}')
+    if g.user:
+        if g.user.location != "All":
+            resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={g.user.location}')
         else:
             resp = requests.get(f'{API_BASE_URL}')
+            data = json.loads(resp.text)
+            messages = data[:10]
+            converted_messages = convert(messages)
+            processed_messages = intersection(converted_messages)
 
-    data = json.loads(resp.text)
-
-    messages = data[:10]
-    converted_messages = convert(messages)
-    processed_messages = intersection(converted_messages)
-    
     return render_template('home.html', messages=processed_messages)
     
     else:
-    return render_template('home-anon.html')
+        return render_template('home-anon.html')
 
 def convert(messages):
     for m in messages:

@@ -17,7 +17,8 @@ except:
     API_TOKEN = os.environ.get('API_TOKEN')
 
 
-API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$order=incident_date DESC&$$app_token={API_TOKEN}&'
+# API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$order=incident_date DESC&$$app_token={API_TOKEN}&'
+API_BASE_URL = f'https://data.sfgov.org/resource/wg3w-h783.json?$order=incident_date DESC'
 
 
 CURR_USER_KEY = "curr_user"
@@ -150,7 +151,7 @@ def homepage():
             processed_messages = intersection(converted_messages)
             return render_template('home.html', messages=processed_messages)
         else:
-            print("Something Went wrong")
+            
             return render_template('home-anon.html')
     else:
         return render_template('home-anon.html')

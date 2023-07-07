@@ -1,48 +1,77 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="row">
+<div class="row">
 
-    <aside class="col-md-4 col-lg-3 col-sm-12" id="home-aside">
-      <div class="card user-card">
-        <div>
-          <div class="image-wrapper">
-            <img src="{{ g.user.header_image_url }}" alt="" class="card-hero">
-          </div>
-          <a href="/users/{{ g.user.id }}" class="card-link">
-            <img src="{{ g.user.image_url }}"
-                 alt="Image for {{ g.user.username }}"
-                 class="card-image">
-            <p>@{{ g.user.username }}</p>
-          </a>
-          <ul class="user-stats nav nav-pills">
-            <li class="stat">
-              <p class="small">Watches</p>
-              <h4>
-                <a href="/users/{{ g.user.id }}">{{ g.user.watches | length }}</a>
-              </h4>
-            </li>
-          </ul>
+  <aside class="col-md-4 col-lg-3 col-sm-12" id="home-aside">
+    <div class="card user-card">
+      <div>
+        <div class="image-wrapper">
+          <img src="{{ g.user.header_image_url }}" alt="" class="card-hero">
         </div>
+        <a href="/users/{{ g.user.id }}" class="card-link">
+          <img src="{{ g.user.image_url }}" alt="Image for {{ g.user.username }}" class="card-image">
+          <p>@{{ g.user.username }}</p>
+        </a>
+        <ul class="user-stats nav nav-pills">
+          <li class="stat">
+            <p class="small">Watches</p>
+            <h4>
+              <a href="/users/{{ g.user.id }}">{{ g.user.watches | length }}</a>
+            </h4>
+          </li>
+        </ul>
       </div>
-    </aside>
-
-    <div class="col-lg-6 col-md-8 col-sm-12">
-      <ul class="list-group" id="messages">
-        {% for msg in messages %}
-          <li class="list-group-item">
-            <a >
-            <div class="">
-              
-              <span class="text-muted">{{ msg.incident_datetime}}</span>
-              <p>{{ msg.incident_category }}</p>
-              <p>{{ msg.incident_description }}</p>
-              <p>{{ msg.analysis_neighborhood }}</p>
-              <p>{{ msg.intersection}}</p>
-            </div>
-
-        {% endfor %}
-      </ul>
     </div>
+  </aside>
 
+  <div class="col-lg-6 col-md-8 col-sm-12">
+    <ul class="list-group" id="messages">
+      {% for msg in messages %}
+      <li class="list-group-item">
+        <div class="message-wrapper">
+          <span class="text-muted">{{ msg.incident_datetime}}</span>
+          <h4 class="incident-category">{{ msg.incident_category }}</h4>
+          <p class="incident-description">{{ msg.incident_description }}</p>
+          <p class="analysis-neighborhood">{{ msg.analysis_neighborhood }}</p>
+          <p class="intersection">{{ msg.intersection}}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
+
+  <div class="col-md-2 col-lg-3 col-sm-12">
+    <div id="map" style="height: 400px; margin-top: 20px;"></div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+
+<script>
+  // Get crime data from previous page
+  var crimeData = JSON.parse('{{ messages | tojson }}');
+
+  // Create a Leaflet map centered at a specific location
+  var map = L.map('map').setView([37.7749, -122.4194], 12); // San Francisco coordinates, initial zoom level
+
+  // Add a tile layer to the map
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Loop through crime data and add markers to the map
+  for (var i = 0; i < crimeData.length; i++) {
+    var incident = crimeData[i];
+    var marker = L.marker([incident.latitude, incident.longitude]).addTo(map); 
+
+    // Create popup for marker with incident details
+    marker.bindPopup('<h4>' + incident.incident_category + '</h4>' +
+                     '<p>' + incident.incident_description + '</p>' +
+                     '<p>' + incident.analysis_neighborhood + '</p>' +
+                     '<p>' + incident.intersection + '</p>');
+  }
+
+</script>
 {% endblock %}

@@ -138,33 +138,38 @@ def homepage():
     """
     
 
-    if g.user:
-
-        # if g.user.location == null:
-        #     resp = requests.get(f'{API_BASE_URL}')
-        # else:
-        if g.user.location != "All":
-            resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={g.user.location}')
-        else:
-            resp = requests.get(f'{API_BASE_URL}')
-
-        data  = json.loads(resp.text)
-       
-        messages = data[:10]
-        messages = convert(messages)
-        messages = intersection(messages)
-
-            
-        return render_template('home.html', messages=messages)
-
+   if g.user:
+    if g.user.location != "All":
+        resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={g.user.location}')
     else:
-        return render_template('home-anon.html')
+        resp = requests.get(f'{API_BASE_URL}')
+
+    data = json.loads(resp.text)
+
+    messages = data[:10]
+    converted_messages = convert(messages)
+    processed_messages = intersection(converted_messages)
+
+    return render_template('home.html', messages=processed_messages)
+
+else:
+    return render_template('home-anon.html')
 
 def convert(messages):
     for m in messages:
-        DT = parser.parse(m['incident_datetime']) 
-        m['incident_datetime'] = DT.strftime("%d-%b-%Y %I.%M %p")
+        m['incident_datetime'] = format_incident_datetime(m['incident_datetime'])
     return messages
+
+def format_incident_datetime(datetime_str):
+    DT = parser.parse(datetime_str)
+    return DT.strftime("%d-%b-%Y %I.%M %p")
+
+def intersection(messages):
+    for m in messages:
+        if 'intersection' in m:
+            m['intersection'] = m['intersection'].lower().title().replace("\\", "and")
+    return messages
+
 
 #############################################################################################################
 """ Routes For the user, profile, edit, ect"""

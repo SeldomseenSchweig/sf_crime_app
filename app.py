@@ -142,11 +142,16 @@ def homepage():
             resp = requests.get(f'{API_BASE_URL}analysis_neighborhood={g.user.location}')
         else:
             resp = requests.get(f'{API_BASE_URL}')
+
+        if resp.status_code == 200:
+            resp = requests.get(f'{API_BASE_URL}')
             data = json.loads(resp.text)
             messages = data[:10]
             converted_messages = convert(messages)
             processed_messages = intersection(converted_messages)
             return render_template('home.html', messages=processed_messages)
+        else:
+            return render_template('error.html', error_message="Failed to fetch data from the API.")
     else:
         return render_template('home-anon.html')
 

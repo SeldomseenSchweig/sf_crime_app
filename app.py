@@ -144,7 +144,6 @@ def homepage():
             resp = requests.get(f'{API_BASE_URL}')
 
         if resp.status_code == 200:
-            resp = requests.get(f'{API_BASE_URL}')
             data = json.loads(resp.text)
             messages = data[:10]
             converted_messages = convert(messages)

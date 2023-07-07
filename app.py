@@ -150,7 +150,8 @@ def homepage():
             processed_messages = intersection(converted_messages)
             return render_template('home.html', messages=processed_messages)
         else:
-            return render_template('home.html')
+            print("Something Went wrong")
+            return render_template('home-anon.html')
     else:
         return render_template('home-anon.html')
 

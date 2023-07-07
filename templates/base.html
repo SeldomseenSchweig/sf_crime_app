@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SF Hood Watch</title>
 
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SF Hood Watch</title>
-  
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <link rel="stylesheet" href="/static/stylesheets/style.css" type="text/css">
-    <link rel="shortcut icon" href="/static/favicon.ico">
-  </head>
-  
-  <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <div class="container">
-        <a href="/home" class="navbar-brand">
-          <img src="/static/images/bridge-logo.png" alt="logo" width="30" height="30">
-          <span class="ml-2">SF Hood Watch</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-            {% if not g.user %}
-            <li class="nav-item">
-              <a class="nav-link" href="/signup">Sign up</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Log in</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="/watch/new">New Hood Watch</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Log out</a>
-            </li>
-            {% endif %}
-          </ul>
-        </div>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="stylesheet" href="/static/stylesheets/style.css" type="text/css">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+      <a href="/home" class="navbar-brand">
+        <img src="/static/images/bridge-logo.png" alt="logo" width="30" height="30">
+        <span class="ml-2">SF Hood Watch</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          {% if not g.user %}
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">Sign up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Log in</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/watch/new">New Hood Watch</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log out</a>
+          </li>
+          {% endif %}
+        </ul>
       </div>
-    </nav>
-  
-    <div class="container mt-4">
-      {% for category, message in get_flashed_messages(with_categories=True) %}
-      <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %}
-  
-      {% block content %}
-      {% endblock %}
     </div>
-  
-    <script src="https://unpkg.com/jquery"></script>
-    <script src="https://unpkg.com/popper"></script>
-    <script src="https://unpkg.com/bootstrap"></script>
-  </body>
-  </html>
-  
+  </nav>
+
+  <div class="container mt-4">
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/popper"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
+  <script>
+    $(document).ready(function() {
+      $(".navbar-toggler").on("click", function() {
+        $(this).toggleClass("active");
+      });
+    });
+  </script>
+</body>
+</html>

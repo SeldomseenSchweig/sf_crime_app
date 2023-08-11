@@ -24,4 +24,43 @@
     <button class="btn btn-warning" formaction="/watch/delete/{{id}}" formmethod="post">Delete Watch</button>
     </form>
   </div>
+  <div id="map" class="col-md-8" style="height: 500px;"></div>
+</div>
+</form>
+
+<!-- Include Leaflet CSS and JS files -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+<!-- Create the map and add markers for each crime incident -->
+<script>
+var map = L.map('map').setView([37.77, -122.42], 13); // Set the initial map view to San Francisco
+
+// Add the OpenStreetMap tile layer to the map
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+// Loop through the crime incidents and add markers to the map
+var messages = JSON.parse('{{ messages | tojson | safe }}'); // Convert messages to JSON format
+var markers = [];
+for (var i = 0; i < messages.length; i++) {
+  var msg = messages[i];
+  var lat = msg.latitude;
+  var lon = msg.longitude;
+  var marker = L.marker([lat, lon]).addTo(map)
+    .bindPopup('<b>' + msg.incident_category + '</b><br>' + msg.incident_description + '<br>' + msg.analysis_neighborhood);
+  markers.push(marker);
+}
+
+// Function to zoom map to a specific crime incident when its list item is clicked
+function zoomToLocation(item) {
+  var lat = item.getAttribute('data-lat');
+  var lon = item.getAttribute('data-lon');
+  map.setView([lat, lon], 15);
+}
+</script>
+{% endblock %}
+
+
 {% endblock %}

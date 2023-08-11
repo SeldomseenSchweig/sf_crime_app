@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+<!-- {% extends 'base.html' %}
 
 {% block content %}
 <button class="btn btn-success" formaction="/home" formmethod="get">Home</button>
@@ -24,9 +24,38 @@
     <button class="btn btn-warning" formaction="/watch/delete/{{id}}" formmethod="post">Delete Watch</button>
     </form>
   </div>
-  <div id="map" class="col-md-8" style="height: 500px;"></div>
+  
+{% endblock %} -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<button class="btn btn-success" formaction="/home" formmethod="get">Home</button>
+
+<input type="hidden" name="messages" value="{{ messages }}">
+<div class="row">
+  <div class="col-md-6">
+    <ul class="list-group" id="messages">
+      {% for watch in watches %}
+        <li class="list-group-item">
+          <div>
+            <span class="text-muted">{{ watch.incident_datetime }}</span>
+            <p>{{ watch.incident_category }}</p>
+            <p>{{ watch.incident_description }}</p>
+            <p>{{ watch.analysis_neighborhood }}</p>
+            <p>{{ watch.intersection }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+    <form class="form-inline">
+      <button class="btn btn-warning" formaction="/watch/delete/{{ id }}" formmethod="post">Delete Watch</button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <div id="map" style="height: 400px;"></div>
+  </div>
 </div>
-</form>
 
 <!-- Include Leaflet CSS and JS files -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
@@ -42,7 +71,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Loop through the crime incidents and add markers to the map
-var messages = JSON.parse('{{ messages | tojson | safe }}'); // Convert messages to JSON format
+var messages = {{ messages | tojson | safe }};
 var markers = [];
 for (var i = 0; i < messages.length; i++) {
   var msg = messages[i];
@@ -53,7 +82,7 @@ for (var i = 0; i < messages.length; i++) {
   markers.push(marker);
 }
 
-// Function to zoom map to a specific crime incident when its list item is clicked
+// Function to zoom the map to a specific crime incident when its list item is clicked
 function zoomToLocation(item) {
   var lat = item.getAttribute('data-lat');
   var lon = item.getAttribute('data-lon');

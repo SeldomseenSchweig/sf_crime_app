@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+<!-- {% extends 'base.html' %}
 
 
 {% block content %}
@@ -21,5 +21,52 @@
       </form>
     </div>
   </div>
+
+{% endblock %} -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="row justify-content-md-center">
+    <div class="col-md-7 col-lg-5">
+      <h2 class="join-message">New Hood Watch</h2>
+
+      <form method="POST" id="user_form">
+        {{ form.hidden_tag() }}
+
+        {% for field in form if field.widget.input_type != 'hidden' %}
+          {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% if field.name == 'date' %}  {# Check if it's the 'date' field #}
+            <label for="{{ field.id }}">{{ field.label.text }}:</label>
+            <input type="text" id="{{ field.id }}" name="{{ field.name }}">
+            <button type="button" id="choose-date-button">Choose a Date</button>
+          {% else %}
+            {{ field(placeholder=field.label.text, class="form-control") }}
+          {% endif %}
+        {% endfor %}
+
+        <button class="btn btn-primary btn-block btn-lg">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    $(function() {
+      $("#date").datepicker({
+        dateFormat: "dd-mm-yy", // Customize the date format as needed
+        onSelect: function(dateText) {
+          // Automatically set the selected date in the input field
+          $("#date").val(dateText);
+        }
+      });
+
+      $("#choose-date-button").click(function() {
+        $("#date").datepicker("show");
+      });
+    });
+  </script>
 
 {% endblock %}

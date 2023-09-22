@@ -198,4 +198,4 @@ class NewHoodWatchForm(FlaskForm):
     ('Human Trafficking (B), Involuntary Servitude', 'Human Trafficking (B), Involuntary Servitude'),
     ('Human Trafficking, Commercial Sex Acts', 'Human Trafficking, Commercial Sex Acts')]
     )
-    date = DateField("Date (After 2017 (DD-MM-YYYY)",format='%m/%d/%Y' )
+    date = DateField("DD-MM-YYYY - Date after 2017",format='%m/%d/%Y' )

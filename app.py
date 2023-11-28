@@ -1,5 +1,4 @@
-from crypt import methods
-from inspect import getargvalues
+
 import os
 from flask import Flask, render_template, flash, redirect, session, g, request
 from flask_debugtoolbar import DebugToolbarExtension
@@ -8,8 +7,7 @@ import requests
 import json
 from forms import UserAddForm, LoginForm, UserEditForm, NewHoodWatchForm
 from models import db, connect_db, User, UserIncidents
-import datetime
-import time
+
 from dateutil import parser
 try:
     from apikey import API_TOKEN

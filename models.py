@@ -1,9 +1,7 @@
-from datetime import datetime
 
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey, DateTime, Text, PickleType
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
